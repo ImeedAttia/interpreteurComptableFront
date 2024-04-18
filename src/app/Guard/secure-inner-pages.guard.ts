@@ -25,7 +25,7 @@ export class SecureInnerPagesGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (this.tokenStorageService.getToken()) {
       this._snackBar.open('Access Denied, You are already LoggedIn !!!', '❌');
-      this.router.navigate(['/Dashboard/Statistics'], {
+      this.router.navigate(['/'], {
         queryParams: { returnUrl: state.url },
       });
       return false;

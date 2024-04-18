@@ -36,7 +36,7 @@ export class AuthGuard implements CanActivate {
     } else {
       if (route.data['role'] && route.data['role'].indexOf(userRole) === -1) {
         this._snackBar.open('Access Denied,Role Not Granted !!!', '❌');
-        this.router.navigate(['/Dashboard/Statistics'], {
+        this.router.navigate(['/'], {
           queryParams: { returnUrl: state.url },
         });
         return false;
