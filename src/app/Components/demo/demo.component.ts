@@ -1,26 +1,35 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {JsonPipe, NgForOf} from "@angular/common";
 import html2canvas from "html2canvas";
 import jspdf from "jspdf";
 import {UserService} from "../../Services/user.service";
 import {User} from "../../Models/users";
+import {TvaService} from "../../Services/tva.service";
 
 @Component({
   selector: 'app-demo',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    JsonPipe
   ],
   templateUrl: './demo.component.html',
   styleUrl: './demo.component.css'
 })
 export class DemoComponent {
   user : User[] = [];
-  constructor(private userServices: UserService) {
+  tva !: any;
+  constructor(private userServices: UserService,private tvaService : TvaService) {
     userServices.getAll().subscribe((data) => {
-      this.user = data;
       console.log(data)
     },
+      (error) => {
+        console.log(error);
+      });
+    tvaService.getAll().subscribe((data) => {
+        this.tva = data;
+        console.log(data)
+      },
       (error) => {
         console.log(error);
       });

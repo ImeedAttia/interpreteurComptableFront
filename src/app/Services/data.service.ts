@@ -11,13 +11,6 @@ import {ForbiddenError} from "./Commun/forbidden-error";
 })
 export class DataService {
 
-  // Inject ApiUrl in constructor to Get it form ather Service
-
-
-  //   other service extends DataService{
-  //   constructor(http:HttpClient){
-  //     super(APIUrlUser,http);
-  //   }
   constructor(@Inject(String) private APIUrl: string,private http: HttpClient) { }
 
   // Get Method

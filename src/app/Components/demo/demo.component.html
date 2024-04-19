@@ -3,25 +3,28 @@
   <input type="button" value="Download PDF" class="btn btn-success" (click)="SavePDF()">
   <br/><br/>
   <div class="container" id="content" #content>
-
-    <div style="border-radius: 30px; background-color: #FF4B2B ; width: 10px;padding: 20px">
-      rezrzaerzaerzera
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">TVA Details</h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">ID: {{ tva?.id }}</li>
+          <li class="list-group-item">Vente: {{ tva?.vente }}</li>
+          <li class="list-group-item">TVA Brute (20%): {{ tva?.tvaBrute20 }}</li>
+          <li class="list-group-item">TVA Brute (10%): {{ tva?.tvaBrute10 }}</li>
+          <li class="list-group-item">TVA Brute (5.5%): {{ tva?.tvaBrute55 }}</li>
+          <li class="list-group-item">Total TVA Brute Due: {{ tva?.totTvaBruteDue }}</li>
+          <li class="list-group-item">Total TVA Deductible: {{ tva?.totTvaDed }}</li>
+          <li class="list-group-item">Total TVA Due: {{ tva?.totTvaDue }}</li>
+          <li class="list-group-item">TVA Net Due: {{ tva?.tvaNetDue }}</li>
+          <li class="list-group-item">Tax Assessment: {{ tva?.taxAss }}</li>
+          <li class="list-group-item">Total to Pay: {{ tva?.totPayer }}</li>
+          <li class="list-group-item">Creation Date: {{ tva?.creationDate }}</li>
+          <li class="list-group-item">AOI: {{ tva?.aoi }}</li>
+          <li class="list-group-item">AB Service: {{ tva?.abservice }}</li>
+        </ul>
+      </div>
     </div>
-    <table class="table table-dark">
-      <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Salary</th>
-      </tr>
-      <tr *ngFor="let item of Data">
-        <th>{{item.Id}}</th>
-        <th>{{item.Name}}</th>
-        <th>{{item.Salary}}</th>
-      </tr>
-    </table>
   </div>
 </div>
-
-
-
-
