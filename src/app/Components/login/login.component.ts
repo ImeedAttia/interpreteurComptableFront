@@ -1,14 +1,31 @@
 import { Component } from '@angular/core';
+import {ErrorsStateMatcher} from "../../Models/ErrorStateMatcher";
+import {TokenStorageService} from "../../Services/token.service";
+import {EntryService} from "../../Services/entry.service";
+import {Router, RouterLink, RouterOutlet} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {CommonModule} from "@angular/common";
+import {MatError, MatFormField, MatInput, MatLabel} from "@angular/material/input";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [CommonModule,
+    RouterOutlet,
+    RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInput,
+    MatError,
+    MatIcon,
+    MatFormField,
+    MatLabel,],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-
   constructor(
     private _snackBar: MatSnackBar,
     private router: Router,
@@ -49,14 +66,20 @@ export class LoginComponent {
     };
     console.log(LoginInfo);
     if (this.form.valid) {
-      console.log(this.form);
-      // Temporary lines for setting authentication token and role (to be removed)
-      window.sessionStorage.setItem(
-        'auth-token',
-        'To be removed from login.ts line 102,103 and 60,61'
-      );
-      window.sessionStorage.setItem('auth-role', 'Admin');
-      this.router.navigate(['/Dashboard/Statistics']);
+      this.entryService.signIn(LoginInfo)
+        .subscribe({
+          next: (data :any) =>{
+            this.tokenStorage.saveToken(data.token);
+            this.router.navigate(['/down']);
+          },
+          error: (err : Error) => {
+            this.errorMessage = err.message;
+            console.log(err);
+            this._snackBar.open(this.errorMessage, '❌');
+          }
+        });
+
+      this.router.navigate(['/down']);
     } else {
       this._snackBar.open('Enter valid information!!!', '❌');
     }

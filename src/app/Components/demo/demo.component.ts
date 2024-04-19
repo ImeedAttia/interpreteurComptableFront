@@ -2,6 +2,8 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import html2canvas from "html2canvas";
 import jspdf from "jspdf";
+import {UserService} from "../../Services/user.service";
+import {User} from "../../Models/users";
 
 @Component({
   selector: 'app-demo',
@@ -13,7 +15,19 @@ import jspdf from "jspdf";
   styleUrl: './demo.component.css'
 })
 export class DemoComponent {
+  user : User[] = [];
+  constructor(private userServices: UserService) {
+    userServices.getAll().subscribe((data) => {
+      this.user = data;
+      console.log(data)
+    },
+      (error) => {
+        console.log(error);
+      });
+ }
 
+
+  //SavePDF
   Data = [
     { Id: 101, Name: 'Nitin', Salary: 1234 },
     { Id: 102, Name: 'Sonu', Salary: 1234 },

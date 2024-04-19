@@ -4,6 +4,7 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 import { AppError } from './Commun/app-error';
 import { BadInput } from './Commun/bad-input-error';
 import { NotFoundError } from './Commun/not-found-error';
+import {ForbiddenError} from "./Commun/forbidden-error";
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +22,7 @@ export class DataService {
 
   // Get Method
   getAll(): Observable<any> {
-    return this.http.get<any>(this.APIUrl).pipe(
-      map(data => data),
-      catchError(this.handleError));
+    return this.http.get<any>(this.APIUrl);
   }
 
   // Get Method
@@ -69,6 +68,9 @@ export class DataService {
       }
       case 400: {
         return throwError(new BadInput(error));
+      }
+      case 403: {
+        return throwError(new ForbiddenError());
       }
       case 500: {
         return throwError(new AppError());
