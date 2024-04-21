@@ -1,0 +1,30 @@
+<div class="container">
+  <h1>CVAE Component</h1>
+  <input type="button" value="Download PDF" class="btn btn-success" (click)="SavePDFCVAE()">
+  <input type="button" value="Edit" class="btn btn-primary" (click)="toggleEditMode()">
+  <br/><br/>
+  <div class="container-cvae" id="containercvae" #containercvae>
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">CVAE Details</h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">ID: <span *ngIf="!editMode">{{ cvae.id }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.id"></li>
+          <li class="list-group-item">Denomination: <span *ngIf="!editMode">{{ cvae.denomination }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.denomination"></li>
+          <li class="list-group-item">Adding: <span *ngIf="!editMode">{{ cvae.address }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.address"></li>
+          <li class="list-group-item">CodPost: <span *ngIf="!editMode">{{ cvae.codPost }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.codPost"></li>
+          <li class="list-group-item">Ville: <span *ngIf="!editMode">{{ cvae.ville }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.ville"></li>
+          <li class="list-group-item">Siret: <span *ngIf="!editMode">{{ cvae.siret }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.siret"></li>
+          <li class="list-group-item">Ref: <span *ngIf="!editMode">{{ cvae.ref }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.ref"></li>
+          <li class="list-group-item">Cessation: <span *ngIf="!editMode">{{ cvae.cessation }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.cessation"></li>
+          <li class="list-group-item">Value Ajouté: <span *ngIf="!editMode">{{ cvae.valAjoute }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.valAjoute"></li>
+          <li class="list-group-item">Ref Ahiffaffair: <span *ngIf="!editMode">{{ cvae.refAhiffaffair }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.refAhiffaffair"></li>
+          <li class="list-group-item">Ref Chiffaffair Grp: <span *ngIf="!editMode">{{ cvae.refChiffaffairGrp }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.refChiffaffairGrp"></li>
+          <li class="list-group-item">Date: <span *ngIf="!editMode">{{ cvae.date }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.date"></li>
+          <li class="list-group-item">Siren: <span *ngIf="!editMode">{{ cvae.siren }}</span><input *ngIf="editMode" type="text" [(ngModel)]="cvae.siren"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

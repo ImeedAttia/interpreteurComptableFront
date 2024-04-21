@@ -1,0 +1,28 @@
+<div class="container">
+  <h1>CFE Component</h1>
+  <input type="button" value="Download PDF" class="btn btn-success" (click)="SavePDF()">
+  <br/><br/>
+  <div class="content-cfe" id="content" #content>
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">TVA Details</h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">ID: {{ cfe.id }}</li>
+          <li class="list-group-item">Département: {{ cfe.departement }}</li>
+          <li class="list-group-item">Commune: {{ cfe.commune }}</li>
+          <li class="list-group-item">Nom: {{ cfe.nom }}</li>
+          <li class="list-group-item">Activités: {{ cfe.activites }}</li>
+          <li class="list-group-item">Adresse: {{ cfe.adresse }}</li>
+          <li class="list-group-item">Siret: {{ cfe.siret }}</li>
+          <li class="list-group-item">Nace: {{ cfe.nace }}</li>
+          <li class="list-group-item">Nom Comp: {{ cfe.nomComp }}</li>
+          <li class="list-group-item">Add Comp: {{ cfe.addComp }}</li>
+          <li class="list-group-item">Phone Comp: {{ cfe.phoneComp }}</li>
+          <li class="list-group-item">Mail Comp: {{ cfe.mailComp }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
