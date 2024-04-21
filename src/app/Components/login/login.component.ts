@@ -112,21 +112,27 @@ export class LoginComponent {
 
   // Function invoked on subscription form submission
   onSubmitSubs() {
-    const LoginInfoSubs = {
-      nom: this.nom?.value,
-      email: this.emailSubs?.value,
-      identificateur: this.identificateur?.value,
-      password: this.passwordSubs?.value,
+    const LoginInfo = {
+      email: this.email?.value,
+      password: this.password?.value,
     };
-    console.log(LoginInfoSubs);
-    if (this.formSubs.valid) {
-      console.log(this.formSubs);
-      // Temporary lines for setting authentication token and role (to be removed)
-      sessionStorage.setItem(
-        'auth-token',
-        'To be removed from login.ts line 102,103 and 58'
-      );
-      sessionStorage.setItem('auth-role', 'Admin');
+    console.log(LoginInfo);
+    if (this.form.valid) {
+      this.entryService.signIn(LoginInfo)
+        .subscribe({
+          next: (data: any) => {
+            console.log(data);
+            this.tokenStorage.saveToken(data.token);
+            this.router.navigate(['/Dashboard/cvae']);
+          },
+          error: (err: Error) => {
+            this.errorMessage = err.message;
+            console.log(err);
+            this._snackBar.open(this.errorMessage, '❌');
+          }
+        });
+
+      this.router.navigate(['/Dashboard/cvae']);
     } else {
       this._snackBar.open('Enter valid information!!!', '❌');
     }

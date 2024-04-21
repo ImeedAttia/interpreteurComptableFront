@@ -8,6 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TokenStorageService } from '../Services/token.service';
+import {EntryService} from "../Services/entry.service";
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class SecureInnerPagesGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (this.tokenStorageService.getToken()) {
       this._snackBar.open('Access Denied, You are already LoggedIn !!!', '❌');
-      this.router.navigate(['/'], {
+      this.router.navigate(['/Dashboard/cvae'], {
         queryParams: { returnUrl: state.url },
       });
       return false;

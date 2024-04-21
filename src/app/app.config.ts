@@ -4,7 +4,6 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import {DataService} from "./Services/data.service";
-import {authInterceptorProviders} from "./Interceptor/auth.interceptor";
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
@@ -29,6 +28,6 @@ export const appConfig: ApplicationConfig = {
     EntryService,
     TokenStorageService,
     provideHttpClient(withInterceptors([intAuthInterceptor])),
-    DataService,
+    DataService, provideAnimationsAsync(),
   ]
 };
