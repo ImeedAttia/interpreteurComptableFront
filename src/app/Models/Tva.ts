@@ -3,7 +3,7 @@ import {Company} from "./Company";
 export class Tva{
   id!: number;
   vente!: number;
-  aOI!: number;
+  aoi!: number;
   tvaBrute20!: number;
   tvaBrute10!: number;
   tvaBrute55!: number;

@@ -44,6 +44,14 @@
     </li>
   </ul>
   <ul class="side-menu">
+    <li routerLink="/Dashboard/Profile" routerLinkActive="active">
+      <a>
+          <span class="text item-list-dash"
+          ><mat-icon>account_circle</mat-icon
+          ><span class="item-list-dash">Profil</span></span
+          >
+      </a>
+    </li>
     <li>
       <a
         routerLink="/SignIn"
@@ -71,7 +79,7 @@
     <form></form>
     <a aria-disabled="true" class="profile" routerLink="/Dashboard/Profile">
       <img [src]="imageProfile" alt="user Image Profile"/>
-      {{ userData.firstName }}
+      {{ userData.lastName + ' ' + userData.firstName}}
     </a>
     <label class="switch">
       <input type="checkbox" [checked]="darkMode" (change)="modeChanges()" />

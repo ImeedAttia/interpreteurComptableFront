@@ -6,6 +6,7 @@ import {CvaeComponent} from "./Components/dashboard/cvae/cvae.component";
 import {CfeComponent} from "./Components/dashboard/cfe/cfe.component";
 import {TvaComponent} from "./Components/dashboard/tva/tva.component";
 import {DashboardComponent} from "./Components/dashboard/dashboard.component";
+import {ProfileComponent} from "./Components/dashboard/profile/profile.component";
 
 export const routes: Routes = [
   { path: "login", component: LoginComponent, canActivate: [SecureInnerPagesGuard] },
@@ -18,6 +19,14 @@ export const routes: Routes = [
       { path: 'cfe', component: CfeComponent, canActivate: [AuthGuard] },
       { path: 'tva', component: TvaComponent, canActivate: [AuthGuard] },
       { path: '', redirectTo: 'cvae', pathMatch: 'full' },
+      {
+        path : 'Profile' ,
+        component : ProfileComponent,
+        canActivate : [AuthGuard],
+        // data: {
+        //   r  ole: ['Admin','User']
+        // }
+      }
     ]
   },
   { path: "", redirectTo: "login", pathMatch: "full" },

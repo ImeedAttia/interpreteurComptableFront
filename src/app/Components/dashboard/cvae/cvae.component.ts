@@ -23,7 +23,7 @@ import {Cvae} from "../../../Models/Cvae";
 })
 export class CvaeComponent {
 
-  cvae!: Cvae;
+  cvae: Cvae= new Cvae()
 
   constructor(private caveService: CvaeService) {
     caveService.getAll().subscribe((data) => {

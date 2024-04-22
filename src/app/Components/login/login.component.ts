@@ -8,6 +8,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {CommonModule} from "@angular/common";
 import {MatError, MatFormField, MatInput, MatLabel} from "@angular/material/input";
 import {MatIcon} from "@angular/material/icon";
+import {User} from "../../Models/users";
 
 @Component({
   selector: 'app-login',
@@ -70,16 +71,15 @@ export class LoginComponent {
         .subscribe({
           next: (data :any) =>{
             this.tokenStorage.saveToken(data.token);
-            this.router.navigate(['/down']);
+            this.router.navigate(['/Dashboard']);
           },
           error: (err : Error) => {
             this.errorMessage = err.message;
-            console.log(err);
-            this._snackBar.open(this.errorMessage, '❌');
+            this._snackBar.open("Identifiants invalides. Veuillez vous assurer d'avoir saisi la bonne adresse e-mail et le bon mot de passe.", '❌');
           }
         });
 
-      this.router.navigate(['/down']);
+      this.router.navigate(['/Dashboard']);
     } else {
       this._snackBar.open('Enter valid information!!!', '❌');
     }
@@ -87,9 +87,9 @@ export class LoginComponent {
 
   // Form group for subscription form with respective form controls
   formSubs: FormGroup = new FormGroup({
-    nom: new FormControl('', [Validators.required]),
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
     emailSubs: new FormControl('', [Validators.required, Validators.email]),
-    identificateur: new FormControl('', [Validators.required]),
     passwordSubs: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
@@ -97,42 +97,42 @@ export class LoginComponent {
   });
 
   // Getter methods for subscription form controls
-  get nom() {
-    return this.formSubs.get('nom');
+  get firstName() {
+    return this.formSubs.get('firstName');
+  }
+  get lastName() {
+    return this.formSubs.get('lastName');
   }
   get emailSubs() {
     return this.formSubs.get('emailSubs');
   }
-  get identificateur() {
-    return this.formSubs.get('identificateur');
-  }
+
   get passwordSubs() {
     return this.formSubs.get('passwordSubs');
   }
 
+  SubsInfo : User = new User();
   // Function invoked on subscription form submission
   onSubmitSubs() {
-    const LoginInfo = {
-      email: this.email?.value,
-      password: this.password?.value,
-    };
-    console.log(LoginInfo);
-    if (this.form.valid) {
-      this.entryService.signIn(LoginInfo)
+    this.SubsInfo.firstName = this.firstName?.value;
+    this.SubsInfo.lastName = this.lastName?.value;
+    this.SubsInfo.email = this.emailSubs?.value;
+    this.SubsInfo.password = this.passwordSubs?.value;
+    console.log(this.formSubs);
+    if (this.formSubs.valid) {
+      this.entryService.signUp(this.SubsInfo)
         .subscribe({
           next: (data: any) => {
-            console.log(data);
             this.tokenStorage.saveToken(data.token);
-            this.router.navigate(['/Dashboard/cvae']);
+            this.router.navigate(['/Dashboard']);
           },
           error: (err: Error) => {
             this.errorMessage = err.message;
-            console.log(err);
-            this._snackBar.open(this.errorMessage, '❌');
+            this._snackBar.open( this.errorMessage, '❌');
           }
         });
 
-      this.router.navigate(['/Dashboard/cvae']);
+      this.router.navigate(['/Dashboard']);
     } else {
       this._snackBar.open('Enter valid information!!!', '❌');
     }

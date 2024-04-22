@@ -33,9 +33,7 @@ export class DataService {
   }
   // Update Method
   Update(id: any, data: any): Observable<any> {
-    return id != null ? this.http.put(`${this.APIUrl}/${id}`, data) : this.http.put(this.APIUrl, data).pipe(
-      map(data => data),
-      catchError(this.handleError));
+    return this.http.put(`${this.APIUrl}/${id}`, data);
   }
 
   //Create Method

@@ -8,44 +8,44 @@
     <form [formGroup]="formSubs" (ngSubmit)="onSubmitSubs()">
       <!-- Social container -->
       <div class="social-container">
-        <img src="../../../assets/Logo.png" height="100px" />
+        <img src="../../../assets/Logo.png" height="70px" />
       </div>
 
       <!-- Nom input -->
       <mat-form-field class="form-group">
-        <mat-label class="form-label" for="Nom">
-          <i class="me-3"><mat-icon>profile</mat-icon></i> Name
+        <mat-label class="form-label" for="firstName">
+          <i class="me-3"><mat-icon>profile</mat-icon></i> first Name
         </mat-label>
         <input
           matInput
           type="text"
-          id="nom"
-          formControlName="nom"
+          id="firstName"
+          formControlName="firstName"
           [errorStateMatcher]="matcher"
-          name="nom"
+          name="firstName"
           required
         />
-        <mat-error *ngIf="nom?.hasError('required')"
-        >Nom is <strong>required</strong></mat-error
+        <mat-error *ngIf="firstName?.hasError('required')"
+        >first Name is <strong>required</strong></mat-error
         >
       </mat-form-field>
 
-      <!-- Identificateur input -->
+      <!-- lastName input -->
       <mat-form-field class="form-group">
-        <mat-label class="form-label" for="identificateur">
-          <i class="me-3"><mat-icon>profile</mat-icon></i> Identificateur
+        <mat-label class="form-label" for="lastName">
+          <i class="me-3"><mat-icon>profile</mat-icon></i> last Name
         </mat-label>
         <input
           matInput
           type="text"
-          id="identificateur"
-          formControlName="identificateur"
+          id="lastName"
+          formControlName="lastName"
           [errorStateMatcher]="matcher"
-          name="identificateur"
+          name="lastName"
           required
         />
-        <mat-error *ngIf="identificateur?.hasError('required')"
-        >Identificateur is <strong>required</strong></mat-error
+        <mat-error *ngIf="lastName?.hasError('required')"
+        >last Name is <strong>required</strong></mat-error
         >
       </mat-form-field>
 
@@ -203,7 +203,7 @@
           src="../../../assets/Logo.png"
           style="height: 50px; margin-bottom: 20px"
         />
-        <h1>Bienvenue à </h1>
+        <h1>Bienvenue à ELZEI</h1>
         <p>Bienvenue sur notre plateforme</p>
         <button class="ghost" id="signIn" (click)="active = ''">Sign In</button>
       </div>
@@ -213,7 +213,7 @@
           src="../../../assets/Logo.png"
           style="height: 50px; margin-bottom: 20px"
         />
-        <h1>Bienvenue à </h1>
+        <h1>Bienvenue à ELZEI</h1>
         <p>Bienvenue sur notre plateforme</p>
         <button
           class="ghost"
