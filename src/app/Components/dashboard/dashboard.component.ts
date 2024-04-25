@@ -41,8 +41,7 @@ export class DashboardComponent {
     private sanitizer: DomSanitizer,
     private MatSnackBar: MatSnackBar,
     private userService: UserService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.isLoggedIn =!!this.tokenStorageService.getToken();

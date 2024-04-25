@@ -5,7 +5,7 @@ import {UserService} from "../../../Services/user.service";
 import {TvaService} from "../../../Services/tva.service";
 import html2canvas from "html2canvas";
 import jspdf from "jspdf";
-import {JsonPipe, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, JsonPipe, NgForOf, NgIf} from "@angular/common";
 import {CvaeService} from "../../../Services/cvae.service";
 import {Cvae} from "../../../Models/Cvae";
 
@@ -16,27 +16,65 @@ import {Cvae} from "../../../Models/Cvae";
     NgForOf,
     JsonPipe,
     FormsModule,
-    NgIf
+    NgIf,
+    DatePipe
   ],
   templateUrl: './cvae.component.html',
   styleUrl: './cvae.component.css'
 })
 export class CvaeComponent {
+  cvae: Cvae = new Cvae();
+  editMode: boolean = false;
+  timestamp: Date | undefined;
 
-  cvae: Cvae= new Cvae()
+  constructor(private cvaeService: CvaeService) {
+    this.fetchCvae();
+  }
 
-  constructor(private caveService: CvaeService) {
-    caveService.getAll().subscribe((data) => {
-        this.cvae = data[0];
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      });
+  fetchCvae() {
+    this.cvaeService.getAll().subscribe((data) => {
+      this.cvae = data[0];
+      this.timestamp = new Date(); // Assuming the timestamp is the current fetch time
+      console.log(data);
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  saveCVAE() {
+    this.cvaeService.Update(this.cvae.id,this.cvae).subscribe((data) => {
+      console.log('Update successful');
+      this.editMode = false;
+      this.fetchCvae(); // Re-fetch to confirm update and reset timestamp
+    }, (error) => {
+      console.log(error);
+    });
+  }
+  addCVAE(){
+    this.cvae.id=0;
+    this.cvaeService.Create(this.cvae).subscribe((data) => {
+      console.log('Create successful');
+      this.editMode = false;
+      this.fetchCvae(); // Re-fetch to confirm update and reset timestamp
+    }, (error) => {
+      console.log(error);
+    });
+  }
+  cancelEdit() {
+    this.editMode = false;
+    this.fetchCvae(); // Reset to the original data
+  }
+
+  addNewCVAE() {
+    this.cvae = new Cvae(); // Reset CVAE object to be empty
+    this.editMode = true;
+  }
+
+  toggleEditMode() {
+    this.editMode = !this.editMode;
   }
 
   @ViewChild('containercvae') content!: ElementRef;
-
   public SavePDFCVAE(): void {
     var data = document.getElementById('containercvae');
     if (data != null) {
@@ -54,10 +92,5 @@ export class CvaeComponent {
         pdf.save('CVAERapport.pdf'); // Generated PDF
       });
     }
-  }
-  editMode: boolean = false;
-
-  toggleEditMode() {
-    this.editMode = !this.editMode;
   }
 }
