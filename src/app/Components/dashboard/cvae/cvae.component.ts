@@ -1,96 +1,112 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {User} from "../../../Models/users";
-import {UserService} from "../../../Services/user.service";
-import {TvaService} from "../../../Services/tva.service";
-import html2canvas from "html2canvas";
-import jspdf from "jspdf";
-import {DatePipe, JsonPipe, NgForOf, NgIf} from "@angular/common";
-import {CvaeService} from "../../../Services/cvae.service";
-import {Cvae} from "../../../Models/Cvae";
+import { Component } from '@angular/core';
+import { FormsModule } from "@angular/forms";
+import { CvaeService } from "../../../Services/cvae.service";
+import { Cvae } from "../../../Models/Cvae";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatOption, MatSelect} from "@angular/material/select";
 
 @Component({
   selector: 'app-cvae',
   standalone: true,
-  imports: [
-    NgForOf,
-    JsonPipe,
-    FormsModule,
-    NgIf,
-    DatePipe
-  ],
+  imports: [FormsModule, DatePipe, NgIf, NgForOf, MatLabel, MatFormField, MatSelect, MatOption],
   templateUrl: './cvae.component.html',
-  styleUrl: './cvae.component.css'
+  styleUrls: ['./cvae.component.css']
 })
 export class CvaeComponent {
+  cvaes: Cvae[] = [];
+  selectedCvaeId?: number;
   cvae: Cvae = new Cvae();
   editMode: boolean = false;
-  timestamp: Date | undefined;
+  addMode: boolean = false;
 
   constructor(private cvaeService: CvaeService) {
-    this.fetchCvae();
+    this.fetchAllCVAE();
   }
 
-  fetchCvae() {
-    this.cvaeService.getAll().subscribe((data) => {
-      this.cvae = data[0];
-      this.timestamp = new Date(); // Assuming the timestamp is the current fetch time
-      console.log(data);
-    }, (error) => {
-      console.log(error);
+  fetchAllCVAE() {
+    this.cvaeService.getAll().subscribe(data => {
+      if (data && data.length > 0) {
+        this.cvaes = data.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        this.cvae = this.cvaes[0];  // Automatically select the CVAE with the latest date
+        this.selectedCvaeId = this.cvae.id;
+        this.selectCVAE();
+      }
+    }, error => {
+      console.error(error);
     });
   }
 
-  saveCVAE() {
-    this.cvaeService.Update(this.cvae.id,this.cvae).subscribe((data) => {
-      console.log('Update successful');
-      this.editMode = false;
-      this.fetchCvae(); // Re-fetch to confirm update and reset timestamp
-    }, (error) => {
-      console.log(error);
-    });
+  selectCVAE() {
+    if (this.selectedCvaeId) {
+      this.cvaeService.get(this.selectedCvaeId).subscribe(cvae => {
+        console.log(cvae);
+        this.cvae = cvae;
+        this.editMode = false; // Reset edit mode
+      }, error => {
+        console.error(error);
+      });
+    }
   }
-  addCVAE(){
-    this.cvae.id=0;
-    this.cvaeService.Create(this.cvae).subscribe((data) => {
-      console.log('Create successful');
-      this.editMode = false;
-      this.fetchCvae(); // Re-fetch to confirm update and reset timestamp
-    }, (error) => {
-      console.log(error);
-    });
+
+  saveOrUpdateCVAE() {
+    if (this.cvae.id) {
+      this.cvaeService.Update(this.cvae.id, this.cvae).subscribe(() => {
+        this.fetchAllCVAE();
+        this.editMode = false;
+      }, error => {
+        console.error(error);
+      });
+    } else {
+      this.cvaeService.Create(this.cvae).subscribe(() => {
+        this.fetchAllCVAE();
+        this.addMode = false;
+      }, error => {
+        console.error(error);
+      });
+    }
   }
-  cancelEdit() {
-    this.editMode = false;
-    this.fetchCvae(); // Reset to the original data
+
+  deleteCVAE() {
+    if (this.selectedCvaeId) {
+      this.cvaeService.Delete(this.selectedCvaeId).subscribe(() => {
+        this.fetchAllCVAE();
+      }, error => {
+        console.error(error);
+      });
+    }
   }
 
   addNewCVAE() {
-    this.cvae = new Cvae(); // Reset CVAE object to be empty
-    this.editMode = true;
+    this.cvae = new Cvae();
+    this.addMode = true;
+    this.editMode = false;
   }
 
-  toggleEditMode() {
-    this.editMode = !this.editMode;
+  cancelEdit() {
+    this.addMode = false;
+    this.editMode = false;
+    this.fetchAllCVAE();
   }
 
-  @ViewChild('containercvae') content!: ElementRef;
-  public SavePDFCVAE(): void {
-    var data = document.getElementById('containercvae');
-    if (data != null) {
-      html2canvas(data).then((canvas) => {
-        // Quelques options nécessaires
-        var imgWidth = 208;
-        var pageHeight = 295;
-        var imgHeight = (canvas.height * imgWidth) / canvas.width;
-        var heightLeft = imgHeight;
 
-        const contentDataURL = canvas.toDataURL('image/png');
-        let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-        var position = 0;
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-        pdf.save('CVAERapport.pdf'); // Generated PDF
+  selectedFile: File | null = null;
+
+  generatePDF(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.selectedFile = target.files ? target.files[0] : null;
+    if (this.selectedFile && this.selectedCvaeId) {
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+      this.cvaeService.generatePDF(formData, this.selectedCvaeId).subscribe((response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        window.open(url, '_blank');
+        window.location.reload();
+      }, (error) => {
+        console.error('Error generating PDF:', error);
+        alert('Wrong file format. Please upload a PDF file.');
       });
     }
+
   }
 }
