@@ -1,7 +1,7 @@
 <div class="container">
   <h1>CVAE Component</h1>
   <select [(ngModel)]="selectedCvaeId" (change)="selectCVAE()">
-    <option *ngFor="let cvae of cvaes" [value]="cvae.id">{{ cvae.id }}</option>
+    <option *ngFor="let cvae of cvaes" [value]="cvae.id">{{ cvae.date | date }}</option>
   </select>
   <input type="button" value="Add New CVAE" class="btn btn-info" (click)="addNewCVAE()">
   <input *ngIf="addMode || editMode" type="button" value="Save Changes" class="btn btn-success" (click)="saveOrUpdateCVAE()">

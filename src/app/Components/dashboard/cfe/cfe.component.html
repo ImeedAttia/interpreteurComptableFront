@@ -24,8 +24,8 @@
       <li class="list-group-item">NACE: <span *ngIf="!editMode && !addMode">{{ cfe.nace }}</span><input *ngIf="editMode || addMode" type="text" [(ngModel)]="cfe.nace"></li>
       <li class="list-group-item">Nom Comp: <span *ngIf="!editMode && !addMode">{{ cfe.nomComp }}</span><input *ngIf="editMode || addMode" type="text" [(ngModel)]="cfe.nomComp"></li>
       <li class="list-group-item">Add Comp: <span *ngIf="!editMode && !addMode">{{ cfe.addComp }}</span><input *ngIf="editMode || addMode" type="text" [(ngModel)]="cfe.addComp"></li>
-      <li class="list-group-item">Phone Comp: <span *ngIf="!editMode && !addMode">{{ cfe.phoneComp }}</span><input *ngIf="editMode or addMode" type="text" [(ngModel)]="cfe.phoneComp"></li>
-      <li class="list-group-item">Mail Comp: <span *ngIf="!editMode && !addMode">{{ cfe.mailComp }}</span><input *ngIf="editMode or addMode" type="email" [(ngModel)]="cfe.mailComp"></li>
+      <li class="list-group-item">Phone Comp: <span *ngIf="!editMode && !addMode">{{ cfe.phoneComp }}</span><input *ngIf="editMode || addMode" type="text" [(ngModel)]="cfe.phoneComp"></li>
+      <li class="list-group-item">Mail Comp: <span *ngIf="!editMode && !addMode">{{ cfe.mailComp }}</span><input *ngIf="editMode || addMode" type="email" [(ngModel)]="cfe.mailComp"></li>
     </ul>
   </div>
 </div>

@@ -1,29 +1,27 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {User} from "../../../Models/users";
-import {UserService} from "../../../Services/user.service";
-import {TvaService} from "../../../Services/tva.service";
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { Tva } from "../../../Models/Tva";
+import { TvaService } from "../../../Services/tva.service";
 import html2canvas from "html2canvas";
 import jspdf from "jspdf";
-import {JsonPipe, NgForOf} from "@angular/common";
-import {Tva} from "../../../Models/Tva";
+import { JsonPipe, NgForOf } from "@angular/common";
 
 @Component({
   selector: 'app-tva',
   standalone: true,
-    imports: [
-      NgForOf,
-      JsonPipe,
-      FormsModule
-    ],
+  imports: [
+    NgForOf,
+    JsonPipe,
+    FormsModule
+  ],
   templateUrl: './tva.component.html',
-  styleUrl: './tva.component.css'
+  styleUrls: ['./tva.component.css']  // Corrected to styleUrls and should be an array
 })
 export class TvaComponent {
   tva!: Tva;
 
   constructor(private tvaService: TvaService) {
-    tvaService.getAll().subscribe((data) => {
+    tvaService.getAll().subscribe((data: Tva) => {
         this.tva = data;
         console.log(data);
       },
@@ -32,24 +30,30 @@ export class TvaComponent {
       });
   }
 
-  @ViewChild('containertva') content!: ElementRef;
+  @ViewChild('containertva') containerTva!: ElementRef;
 
-  public SavePDFTVA(): void {
-    var data = document.getElementById('containertva');
-    if (data != null) {
-      html2canvas(data).then((canvas) => {
-        // Quelques options nécessaires
-        var imgWidth = 208;
-        var pageHeight = 295;
-        var imgHeight = (canvas.height * imgWidth) / canvas.width;
-        var heightLeft = imgHeight;
-
-        const contentDataURL = canvas.toDataURL('image/png');
-        let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-        var position = 0;
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-        pdf.save('TVARapport.pdf'); // Generated PDF
+  saveTva(event: Event): void {
+    const element = event.currentTarget as HTMLInputElement;
+    let file = element.files ? element.files[0] : null;
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      this.tvaService.generatePDF(formData, this.tva.id).subscribe((response: Blob) => {
+        const url = window.URL.createObjectURL(response);
+        window.open(url, '_blank');
+        window.location.reload();
+      }, (error) => {
+        console.error('Error generating PDF:', error);
+        alert('Wrong file format. Please upload a PDF file.');
       });
     }
+  }
+
+  generatePDF(): void {
+    this.tvaService.Create(this.tva).subscribe((data) => {
+      console.log("TVA created or updated");
+    }, (error) => {
+      console.error("Error saving TVA:", error);
+    });
   }
 }

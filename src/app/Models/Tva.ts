@@ -1,6 +1,6 @@
-import {Company} from "./Company";
+import { Company } from "./Company"; // Include if needed
 
-export class Tva{
+export class Tva {
   id!: number;
   vente!: number;
   aoi!: number;
@@ -15,5 +15,4 @@ export class Tva{
   taxAss!: number;
   totPayer!: number;
   creationDate: Date = new Date();
-  company: Company = new Company();
 }
