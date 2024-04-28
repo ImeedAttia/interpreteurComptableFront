@@ -15,8 +15,8 @@ export class TvaService  extends DataService{
     super(APIUrlTva,http);
     this.userId = this.tokenService.getUser() as number;
   }
-  generatePDF(formData: FormData, tvaId: number): Observable<Blob> {
-    return this.httpPrivate.post(`${APIUrlTva}/fill-pdf/${tvaId}/${this.userId}`, formData, {
+  generatePDF(formData: FormData): Observable<Blob> {
+    return this.httpPrivate.post(`${APIUrlTva}/fill-pdf/${this.userId}`, formData, {
       responseType: 'blob'
     });
   }

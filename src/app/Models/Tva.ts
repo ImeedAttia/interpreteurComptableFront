@@ -8,7 +8,7 @@ export class Tva {
   tvaBrute10!: number;
   tvaBrute55!: number;
   totTvaBruteDue!: number;
-  aBService!: number;
+  abservice!: number;
   totTvaDed!: number;
   totTvaDue!: number;
   tvaNetDue!: number;

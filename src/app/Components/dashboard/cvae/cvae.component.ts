@@ -99,13 +99,11 @@ export class CvaeComponent {
       const formData = new FormData();
       formData.append('file', this.selectedFile);
       this.cvaeService.generatePDF(formData, this.selectedCvaeId).subscribe((response: Blob) => {
-        console.log(response)
-        console.log("///////////////")
-
+        console.log(response);
         const url = window.URL.createObjectURL(response);
         window.open(url, '_blank');
         this.selectedFile = null;
-        //window.location.reload();
+        window.location.reload();
       }, (error) => {
         console.error('Error generating PDF:', error);
         alert('Wrong file format. Please upload a PDF file.');

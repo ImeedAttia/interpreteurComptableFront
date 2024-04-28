@@ -1,5 +1,4 @@
 <div class="container">
-  <h1>CVAE Component</h1>
   <select [(ngModel)]="selectedCvaeId" (change)="selectCVAE()">
     <option *ngFor="let cvae of cvaes" [value]="cvae.id">{{ cvae.date | date }}</option>
   </select>
