@@ -25,7 +25,7 @@ export class SecureInnerPagesGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (this.tokenStorageService.getToken()) {
-      this._snackBar.open('Access Denied, You are already LoggedIn !!!', '❌');
+      console.log("Access Denied, You are already LoggedIn !!!")
       this.router.navigate(['/Dashboard/cvae'], {
         queryParams: { returnUrl: state.url },
       });

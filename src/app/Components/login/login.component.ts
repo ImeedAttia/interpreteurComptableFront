@@ -72,15 +72,13 @@ export class LoginComponent {
           next: (data :any) =>{
             this.tokenStorage.saveToken(data.token);
             console.log(data);
-            //this.router.navigate(['/Dashboard']);
+            window.location.reload();
           },
           error: (err : Error) => {
             this.errorMessage = err.message;
             this._snackBar.open("Identifiants invalides. Veuillez vous assurer d'avoir saisi la bonne adresse e-mail et le bon mot de passe.", '❌');
           }
         });
-
-      this.router.navigate(['/Dashboard']);
     } else {
       this._snackBar.open('Enter valid information!!!', '❌');
     }
@@ -125,7 +123,7 @@ export class LoginComponent {
         .subscribe({
           next: (data: any) => {
             this.tokenStorage.saveToken(data.token);
-            this.router.navigate(['/Dashboard']);
+            window.location.reload();
           },
           error: (err: Error) => {
             this.errorMessage = err.message;
@@ -133,7 +131,6 @@ export class LoginComponent {
           }
         });
 
-      this.router.navigate(['/Dashboard']);
     } else {
       this._snackBar.open('Enter valid information!!!', '❌');
     }

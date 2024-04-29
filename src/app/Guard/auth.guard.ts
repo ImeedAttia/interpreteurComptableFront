@@ -29,23 +29,11 @@ export class AuthGuard implements CanActivate {
     console.log(jwtToken);
     const userRole = this.authService.getRole();
     if (!jwtToken) {
-      this._snackBar.open('Access Denied !!!', '❌');
+      console.log('Access Denied !!!');
       this.router.navigate(['/login'], {
         queryParams: { returnUrl: state.url },
       });
     }
-    // else {
-    //   if (route.data['role'] && route.data['role'].indexOf(userRole) === -1) {
-    //     this._snackBar.open('Access Denied,Role Not Granted !!!', '❌');
-    //     this.router.navigate(['/Dashboard/tva'], {
-    //       queryParams: { returnUrl: state.url },
-    //     });
-    //     return false;
-    //   } else {
-    //     return true;
-    //   }
-    // }
-    console.log(jwtToken);
     return true;
   }
 }
